@@ -1,0 +1,61 @@
+<form class="form-horizontal" #portfolioForm="ngForm" (ngSubmit)="onSubmit()">
+  <fieldset>
+    <legend>Create Portfolio</legend>
+    <div class="form-group">
+      <label for="name" class="col-lg-2 control-label">Name</label>
+      <div class="col-lg-10">
+        <input type="text" class="form-control" required
+               [(ngModel)]="portfolio.name" name="name" id="name" placeholder="Portfolio Name">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="description" class="col-lg-2 control-label">Description</label>
+      <div class="col-lg-10">
+        <textarea class="form-control" rows="3" required
+                  [(ngModel)]="portfolio.description" name="description"  id="description"></textarea>
+        <span class="help-block">A longer block of help text that breaks onto a new line and may extend beyond one line.</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="startDate" class="col-lg-2 control-label">Start Date</label>
+      <div class="col-lg-10">
+        <input type="text" class="form-control" required
+               [(ngModel)]="portfolio.startDate" name="startDate"  id="startDate" placeholder="Portfolio StartDate">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="endDate" class="col-lg-2 control-label">End Date</label>
+      <div class="col-lg-10">
+        <input type="text" class="form-control" required
+               [(ngModel)]="portfolio.endDate" name="endDate"  id="endDate" placeholder="Portfolio End Date">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="broker" class="col-lg-2 control-label">Broker</label>
+      <div class="col-lg-10">
+        <input type="text" class="form-control" required
+               [(ngModel)]="portfolio.broker" name="broker"  id="broker" placeholder="Portfolio Broker">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="initialBalance" class="col-lg-2 control-label">Initial Balance</label>
+      <div class="col-lg-10">
+        <input type="number" class="form-control" required
+               [(ngModel)]="portfolio.balance.initialBalance" name="initialBalance"  id="initialBalance" placeholder="Initial balance">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="target" class="col-lg-2 control-label">Target</label>
+      <div class="col-lg-10">
+        <input type="number" class="form-control" required
+               [(ngModel)]="portfolio.balance.target" name="target"  id="target" placeholder="Target">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-10 col-lg-offset-2">
+        <button type="reset" (click)="go()" class="btn btn-default">Cancel</button>
+        <button type="submit" [disabled]="!portfolioForm.form.valid" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </fieldset>
+</form>

@@ -1,0 +1,42 @@
+<div class="jumbotron">
+  <h1>Trade Management</h1>
+  <p>This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+  <p><a class="btn btn-primary btn-lg" routerLink="new-trade" routerLinkActive="active">Add new Trade</a></p>
+</div>
+<table class="table table-striped table-hover ">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Name</th>
+      <th>Order Type</th>
+      <th>Trade Type</th>
+      <th>Position</th>
+      <th>Start Date</th>
+      <th>End Date</th>
+      <th>Buy Price</th>
+      <th>Sell Price</th>
+      <th>Quantity</th>
+      <th>Period</th>
+      <th>%/$</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let trade of trades; let i = index">
+      <td>{{i+1}}</td>
+      <td>{{trade.stock.name}}</td>
+      <td>{{trade.orderType}}</td>
+      <td>{{trade.tradeType}}</td>
+      <td>{{trade.position}}</td>
+      <td>{{trade.transactionTime.startDate | date: 'yyyy-MM-dd'}}</td>
+      <td>{{trade.transactionTime.endDate | date: 'yyyy-MM-dd'}}</td>
+      <td>{{trade.stock.buyPrice | number:'.2-2'}}</td>
+      <td>{{trade.stock.sellPrice | number:'.2-2'}}</td>
+      <td>{{trade.stock.quantity}}</td>
+      <td>{{trade.transactionTime.holdingPeriod}}</td>
+      <td>{{trade.stock.profitLoss.percentage}}%/{{trade.stock.profitLoss.amount | number:'.2-2'}}</td>
+    </tr>
+  </tbody>
+</table>
+
+
+

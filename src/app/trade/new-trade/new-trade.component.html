@@ -1,0 +1,182 @@
+<form class="form-horizontal" #tradeForm="ngForm" (ngSubmit)="onSubmit()">
+  <fieldset>
+    <legend>Create Trade</legend>
+    <div class="form-group">
+      <label for="portfolio" class="col-lg-2 control-label">Select Portfolio</label>
+      <div class="col-lg-10">
+        <div class="dropdown">
+          <button class="btn btn-default dropdown-toggle" type="button" id="portfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            {{selectedPortfolio.name}}
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="portfolio">
+            <li *ngFor="let portfolio of portfolios; let i = index" (click)="updateColumnDetails(portfolio)"><a>{{portfolio.name}}</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" *ngIf="selectedPortfolio.id !== '-1'">
+      <label for="column" class="col-lg-2 control-label">Select Column</label>
+      <div class="col-lg-10">
+        <div class="dropdown">
+          <button class="btn btn-default dropdown-toggle" type="button" id="column" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            {{selectedColumn.name}}
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="column">
+            <li *ngFor="let column of columns; let i = index" (click)="updateSelectedColumnDetails(column)"><a>{{column.name}}_{{column.available}}_{{column.balance.currentBalance}}</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="selectedColumn.id !== '-1'">
+      <div class="form-group">
+        <label for="orderType" class="col-lg-2 control-label">Order Type</label>
+        <div class="col-lg-10">
+          <select [(ngModel)]="trade.orderType" name="orderType" id="orderType" class="form-control" required>
+            <option *ngFor="let o of orderTypes" [ngValue]="o">{{o}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="tradeType" class="col-lg-2 control-label">Trade Type</label>
+        <div class="col-lg-10">
+          <select [(ngModel)]="trade.tradeType" name="tradeType" id="tradeType" class="form-control" required>
+            <option *ngFor="let t of tradeTypes" [ngValue]="t">{{t}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="position" class="col-lg-2 control-label">Positions</label>
+        <div class="col-lg-10">
+          <select [(ngModel)]="trade.position" name="position" id="position" class="form-control" required>
+            <option *ngFor="let p of positions" [ngValue]="p">{{p}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="startDate" class="col-lg-2 control-label">Start Date</label>
+        <div class="col-lg-10">
+          <input type="text" class="form-control" required
+                 [(ngModel)]="trade.transactionTime.startDate" name="startDate" id="startDate" placeholder="Trade Start Date">
+        </div>
+      </div>
+      <!--<div class="form-group">
+        <label for="endDate" class="col-lg-2 control-label">End Date</label>
+        <div class="col-lg-10">
+          <input type="text" class="form-control" required
+                 [(ngModel)]="trade.transactionTime.endDate" name="endDate" id="endDate" placeholder="Trade End Date">
+        </div>
+      </div>-->
+      <div class="form-group">
+        <label for="financialYear" class="col-lg-2 control-label">Financial Year</label>
+        <div class="col-lg-10">
+          <select [(ngModel)]="trade.transactionTime.financialYear" name="financialYear" id="financialYear" class="form-control" required>
+            <option *ngFor="let f of financialYears" [ngValue]="f">{{f}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="quarter" class="col-lg-2 control-label">Quarter</label>
+        <div class="col-lg-10">
+          <select [(ngModel)]="trade.transactionTime.quarter" name="quarter" id="quarter" class="form-control" required>
+            <option *ngFor="let q of quarters" [ngValue]="q">{{q}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="exchange" class="col-lg-2 control-label">Exchange</label>
+        <div class="col-lg-10">
+          <select [(ngModel)]="trade.stock.exchange" name="exchange" id="exchange" class="form-control" required>
+            <option *ngFor="let e of exchanges" [ngValue]="e">{{e}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="instrumentType" class="col-lg-2 control-label">Instrument Type</label>
+        <div class="col-lg-10">
+          <input type="text" class="form-control" required
+                 [(ngModel)]="trade.stock.instrumentType" name="instrumentType" id="instrumentType" placeholder="Instrument Type">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="name" class="col-lg-2 control-label">Stock Name</label>
+        <div class="col-lg-10">
+          <input type="text" class="form-control" required
+                 [(ngModel)]="trade.stock.name" name="name" id="name" placeholder="Stock Name">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="buyPrice" class="col-lg-2 control-label">Buy Price</label>
+        <div class="col-lg-10">
+          <input type="text" class="form-control" required
+                 [(ngModel)]="trade.stock.buyPrice" name="buyPrice" id="buyPrice" placeholder="Buy Price">
+        </div>
+      </div>
+      <!--<div class="form-group">
+        <label for="sellPrice" class="col-lg-2 control-label">Sell Price</label>
+        <div class="col-lg-10">
+          <input type="text" class="form-control" required
+                 [(ngModel)]="trade.stock.sellPrice" name="sellPrice" id="sellPrice" placeholder="Sell Price">
+        </div>
+      </div>-->
+      <div class="form-group">
+        <label for="stopLoss" class="col-lg-2 control-label">Stop Loss</label>
+        <div class="col-lg-10">
+          <input type="text" class="form-control" required
+                 [(ngModel)]="trade.stock.stopLoss" name="stopLoss" id="stopLoss" placeholder="Stop loss">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="quantity" class="col-lg-2 control-label">Quantity</label>
+        <div class="col-lg-10">
+          <input type="text" class="form-control" required
+                 [(ngModel)]="trade.stock.quantity" name="quantity" id="quantity" placeholder="Quantity">
+        </div>
+      </div>
+      <!--<div class="form-group">
+        <label for="extraCharges" class="col-lg-2 control-label">Extra Charges</label>
+        <div class="col-lg-10">
+          <input type="text" class="form-control" required
+                 [(ngModel)]="trade.stock.extraCharges" name="extraCharges" id="extraCharges" placeholder="Extra Charges">
+        </div>
+      </div>-->
+      <div class="form-group">
+        <label for="preTrade" class="col-lg-2 control-label">Pre Trade Observation</label>
+        <div class="col-lg-10">
+          <input type="text" class="form-control" required
+                 [(ngModel)]="trade.observations.preTrade" name="preTrade" id="preTrade" placeholder="Pre Trade Observation">
+        </div>
+      </div>
+      <!--<div class="form-group">
+        <label for="postTrade" class="col-lg-2 control-label">Post Trade Observation</label>
+        <div class="col-lg-10">
+          <input type="text" class="form-control" required
+                 [(ngModel)]="trade.observations.postTrade" name="postTrade" id="postTrade" placeholder="Post Trade Observation">
+        </div>
+      </div>-->
+
+      <div class="form-group">
+        <label for="buy" class="col-lg-2 control-label">Nifty Buy Level</label>
+        <div class="col-lg-10">
+          <input type="text" class="form-control" required
+                 [(ngModel)]="trade.niftyPrices.buy" name="buy" id="buy" placeholder="Nifty Buy Level">
+        </div>
+      </div>
+      <!--<div class="form-group">
+        <label for="sell" class="col-lg-2 control-label">Nifty Sell Level</label>
+        <div class="col-lg-10">
+          <input type="text" class="form-control" required
+                 [(ngModel)]="trade.niftyPrices.sell" name="sell" id="sell" placeholder="Nifty Sell Level">
+        </div>
+      </div>-->
+
+      <div class="form-group">
+        <div class="col-lg-10 col-lg-offset-2">
+          <button type="reset" (click)="go()" class="btn btn-default">Cancel</button>
+          <button type="submit" [disabled]="!tradeForm.form.valid" class="btn btn-primary">Submit</button>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</form>
